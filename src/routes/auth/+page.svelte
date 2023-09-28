@@ -183,13 +183,13 @@
     <div
     class="mt-5 flex relative rounded-lg {valid
       ? ``
-      : ` ring-pink-500 dark:ring-pink-500 ring-1 focus-within:ring-offset-1 focus-within:ring-offset-pink-500/50 focus-within:ring-1`}"
+      : ` ring-pink-500 ring-1 focus-within:ring-offset-1 focus-within:ring-offset-pink-500/50 focus-within:ring-1`}"
     >
     <div class="flex" use:clickOutsideAction={closeOnClickOutside}>
       <button
         id="states-button"
         data-dropdown-toggle="dropdown-states"
-        class="relative flex-shrink-0 overflow-hidden z-10 whitespace-nowrap inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-sky-300 rounded-l-lg hover:bg-gray-200 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white dark:border-sky-600"
+        class="relative flex-shrink-0 overflow-hidden z-10 whitespace-nowrap inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 border border-sky-300 rounded-l-lg focus:outline-none"
         type="button"
         role="combobox"
         aria-controls="dropdown-countries"
@@ -201,7 +201,7 @@
           <div class="inline-flex items-center text-left">
             <span class="flag flag-{selectedCountry.toLowerCase()} flex-shrink-0 mr-3" />
             {#if options.format === 'national'}
-              <span class=" text-gray-600 dark:text-gray-400"
+              <span class=" text-gray"
                 >+{selectedCountryDialCode}</span
               >
             {/if}
@@ -226,7 +226,7 @@
       {#if isOpen}
         <div
           id="dropdown-countries"
-          class="absolute z-10 max-w-fit bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 overflow-hidden translate-y-11"
+          class="absolute z-10 max-w-fit bg-white rounded divide-y divide-gray-100 shadow overflow-hidden translate-y-11"
           data-popper-reference-hidden=""
           data-popper-escaped=""
           data-popper-placement="bottom"
@@ -235,7 +235,7 @@
           tabindex="-1"
         >
           <div
-            class="text-sm text-gray-700 dark:text-gray-200 max-h-48 overflow-y-auto"
+            class="text-sm text-gray-700 max-h-48 overflow-y-auto"
             aria-labelledby="countries-button"
             role="listbox"
           >
@@ -252,11 +252,11 @@
                 <button
                   value={country.iso2}
                   type="button"
-                  class="inline-flex py-2 px-4 w-full text-sm hover:bg-gray-100 dark:hover:bg-gray-600
-                              active:bg-gray-800 dark:active:bg-gray-800 overflow-hidden
+                  class="inline-flex py-2 px-4 w-full text-sm hover:bg-gray-100 
+                              active:bg-gray-800 overflow-hidden
                               {isActive
-                    ? 'bg-gray-600 dark:text-white'
-                    : 'dark:hover:text-white dark:text-gray-400'}"
+                    ? 'bg-gray-600'
+                    : ''}"
                   on:click={(e) => {
                     handleSelect(country.iso2, e);
                   }}
@@ -283,7 +283,7 @@
       bind:valid
       {options}
       required
-      class="text-sm rounded-r-lg block w-full p-2.5 focus:outline-none border border-sky-300 border-l-sky-100 dark:border-l-sky-700 dark:border-sky-600 bg-sky-50 dark:bg-sky-700 dark:placeholder-gray-400 dark:text-white text-gray-900"
+      class="text-sm rounded-r-lg block w-full p-2.5 focus:outline-none border border-sky-300 border-l-sky-100 text-gray-900"
       autocomplete="one-time-code"
     />
   </div>

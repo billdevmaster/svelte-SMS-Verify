@@ -32,7 +32,7 @@
     } else {
       // User is signed out
       console.log($page.route.id)
-      if ($page.route.id != "/auth" && $page.route.id != "/") {
+      if ($page.route.id != "/auth" && $page.route.id != "/" && $page.route.id != "/auth/confirm") {
         goto("/");
       }
     }
