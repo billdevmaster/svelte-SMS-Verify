@@ -50,7 +50,7 @@
   <p class="text-4xl font-bold text-center text-main mb-20 ">Je suis un talent</p>
   <p class="text-2xl font-bold text-center text-main mb-10">Codes SMS</p>
   <div class="flex justify-center mb-16">
-    <InputForm label="" value={code} on:change={handleInputChange}/>
+    <InputForm label="" value={code} on:change={handleInputChange} autocomplete="one-time-code"/>
   </div>
   <Button on:click={() => confirmCode()}>Suivant</Button>
 
