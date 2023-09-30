@@ -13,7 +13,8 @@
     
     initFirebase();
     const auth = getAuth();
-
+    // signOut(auth);
+    // return;
     onAuthStateChanged(auth, function(userRes) {
     if (userRes) {
       // User is signed in, check if the session is expired
