@@ -9,27 +9,27 @@
 
   // start telephone
   import { createEventDispatcher } from 'svelte';
-	import { clickOutsideAction } from 'svelte-tel-input/utils';
-	import { TelInput, isSelected, normalizedCountries } from 'svelte-tel-input';
-	import type {
-		DetailedValue,
-		CountrySelectEvents,
-		CountryCode,
-		E164Number,
-		TelInputOptions,
-		Country
-	} from 'svelte-tel-input/types';
-	import 'svelte-tel-input/styles/flags.css';
+  import { clickOutsideAction } from 'svelte-tel-input/utils';
+  import { TelInput, isSelected, normalizedCountries } from 'svelte-tel-input';
+  import type {
+    DetailedValue,
+    CountrySelectEvents,
+    CountryCode,
+    E164Number,
+    TelInputOptions,
+    Country
+  } from 'svelte-tel-input/types';
+  import 'svelte-tel-input/styles/flags.css';
 
-	export let clickOutside = true;
-	export let closeOnClick = true;
-	export let disabled = false;
-	export let detailedValue: DetailedValue | null = null;
-	export let value: E164Number | null = "";
-	export let searchPlaceholder: string | null = 'Search';
-	export let selectedCountry: CountryCode | null = "CH";
-	export let valid: boolean;
-	export let options: TelInputOptions = {
+  export let clickOutside = true;
+  export let closeOnClick = true;
+  export let disabled = false;
+  export let detailedValue: DetailedValue | null = null;
+  export let value: E164Number | null = "";
+  export let searchPlaceholder: string | null = 'Search';
+  export let selectedCountry: CountryCode | null = "CH";
+  export let valid: boolean;
+  export let options: TelInputOptions = {
     // Generates country specific placeholder for the selected country.
     autoPlaceholder: true,
     // Allow or disallow spaces in the input field
@@ -39,82 +39,82 @@
     // Formatted output `national` | `international`
     format: 'national'
   };
-	let searchText = '';
-	let isOpen = false;
+  let searchText = '';
+  let isOpen = false;
 
-	$: selectedCountryDialCode =
-		normalizedCountries.find((el) => el.iso2 === selectedCountry)?.dialCode || null;
+  $: selectedCountryDialCode =
+    normalizedCountries.find((el) => el.iso2 === selectedCountry)?.dialCode || null;
 
-	const toggleDropDown = (e?: Event) => {
-		e?.preventDefault();
-		if (disabled) return;
-		isOpen = !isOpen;
-	};
+  const toggleDropDown = (e?: Event) => {
+    e?.preventDefault();
+    if (disabled) return;
+    isOpen = !isOpen;
+  };
 
-	const closeDropdown = (e?: Event) => {
-		if (isOpen) {
-			e?.preventDefault();
-			isOpen = false;
-			searchText = '';
-		}
-	};
+  const closeDropdown = (e?: Event) => {
+    if (isOpen) {
+      e?.preventDefault();
+      isOpen = false;
+      searchText = '';
+    }
+  };
 
-	const selectClick = () => {
-		if (closeOnClick) closeDropdown();
-	};
+  const selectClick = () => {
+    if (closeOnClick) closeDropdown();
+  };
 
-	const closeOnClickOutside = () => {
-		if (clickOutside) {
-			closeDropdown();
-		}
-	};
+  const closeOnClickOutside = () => {
+    if (clickOutside) {
+      closeDropdown();
+    }
+  };
 
-	const sortCountries = (countries: Country[], text: string) => {
-		const normalizedText = text.trim().toLowerCase();
-		if (!normalizedText) {
-			return countries.sort((a, b) => a.label.localeCompare(b.label));
-		}
-		return countries.sort((a, b) => {
-			const aNameLower = a.name.toLowerCase();
-			const bNameLower = b.name.toLowerCase();
-			const aStartsWith = aNameLower.startsWith(normalizedText);
-			const bStartsWith = bNameLower.startsWith(normalizedText);
-			if (aStartsWith && !bStartsWith) return -1;
-			if (!aStartsWith && bStartsWith) return 1;
-			const aIndex = aNameLower.indexOf(normalizedText);
-			const bIndex = bNameLower.indexOf(normalizedText);
-			if (aIndex === -1 && bIndex === -1) return a.id.localeCompare(b.id);
-			if (aIndex === -1) return 1;
-			if (bIndex === -1) return -1;
-			const aWeight = aIndex + (aStartsWith ? 0 : 1);
-			const bWeight = bIndex + (bStartsWith ? 0 : 1);
-			return aWeight - bWeight;
-		});
-	};
+  const sortCountries = (countries: Country[], text: string) => {
+    const normalizedText = text.trim().toLowerCase();
+    if (!normalizedText) {
+      return countries.sort((a, b) => a.label.localeCompare(b.label));
+    }
+    return countries.sort((a, b) => {
+      const aNameLower = a.name.toLowerCase();
+      const bNameLower = b.name.toLowerCase();
+      const aStartsWith = aNameLower.startsWith(normalizedText);
+      const bStartsWith = bNameLower.startsWith(normalizedText);
+      if (aStartsWith && !bStartsWith) return -1;
+      if (!aStartsWith && bStartsWith) return 1;
+      const aIndex = aNameLower.indexOf(normalizedText);
+      const bIndex = bNameLower.indexOf(normalizedText);
+      if (aIndex === -1 && bIndex === -1) return a.id.localeCompare(b.id);
+      if (aIndex === -1) return 1;
+      if (bIndex === -1) return -1;
+      const aWeight = aIndex + (aStartsWith ? 0 : 1);
+      const bWeight = bIndex + (bStartsWith ? 0 : 1);
+      return aWeight - bWeight;
+    });
+  };
 
-	const handleSelect = (val: CountryCode, e?: Event) => {
-		if (disabled) return;
-		e?.preventDefault();
-		if (
-			selectedCountry === undefined ||
-			selectedCountry === null ||
-			(typeof selectedCountry === typeof val && selectedCountry !== val)
-		) {
-			selectedCountry = val;
-			onChange(val);
-			selectClick();
-		} else {
-			dispatch('same', { option: val });
-			selectClick();
-		}
-	};
+  const handleSelect = (val: CountryCode, e?: Event) => {
+    if (disabled) return;
+    e?.preventDefault();
+    if (
+      selectedCountry === undefined ||
+      selectedCountry === null ||
+      (typeof selectedCountry === typeof val && selectedCountry !== val)
+    ) {
+      selectedCountry = val;
+      onChange(val);
+      selectClick();
+    } else {
+      dispatch('same', { option: val });
+      selectClick();
+    }
+  };
 
-	const dispatch = createEventDispatcher<CountrySelectEvents<CountryCode>>();
+  const dispatch = createEventDispatcher<CountrySelectEvents<CountryCode>>();
 
-	const onChange = (selectedCountry: CountryCode) => {
+  const onChange = (selectedCountry: CountryCode) => {
     console.log(selectedCountry)
-		dispatch('change', { option: selectedCountry });
-	};
+    dispatch('change', { option: selectedCountry });
+  };
   // end telephone
 
   let alertShow = false;
@@ -126,11 +126,6 @@
 
   onMount(() => {
     const initialize = () => {
-      const auth = getAuth();
-      recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible', // Optional configuration options
-      });
-
       let type;
       pageType.subscribe(value => {
         type = value;
@@ -152,6 +147,9 @@
     try {
       const auth = getAuth();
       auth.settings.appVerificationDisabledForTesting = true;
+      recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible', // Optional configuration options
+      });
       auth.languageCode = 'it';
       
       if (value && valid) {
