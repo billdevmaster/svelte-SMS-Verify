@@ -151,8 +151,9 @@
   const phoneVerify = () => {
     try {
       const auth = getAuth();
+      auth.settings.appVerificationDisabledForTesting = true;
       auth.languageCode = 'it';
-  
+      
       if (value && valid) {
         signInWithPhoneNumber(auth, value, recaptchaVerifier)
           .then((confirmationResult) => {
@@ -285,6 +286,7 @@
       {options}
       required
       class="text-sm rounded-r-lg block w-full p-2.5 focus:outline-none border border-sky-300 border-l-sky-100 text-gray-900"
+      autocomplete="one-time-code"
     />
   </div>
 
