@@ -126,6 +126,22 @@
 
   onMount(() => {
     const initialize = () => {
+      if (!window.recaptchaVerifier) {
+        const auth = getAuth();
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+          size: 'invisible', // Optional configuration options
+          'callback': (response) => {
+              console.log(response)
+          },
+          'expired-callback': () => {
+              console.log('expired');
+          },
+          'error-callback': (error) => {
+              console.log(error);
+          }
+        });
+        window.recaptchaVerifier.render();
+      }
       let type;
       pageType.subscribe(value => {
         type = value;
@@ -146,23 +162,11 @@
   const phoneVerify = () => {
     try {
       const auth = getAuth();
-      recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible', // Optional configuration options
-        'callback': (response) => {
-            console.log(response)
-        },
-        'expired-callback': () => {
-            console.log('expired');
-        },
-        'error-callback': (error) => {
-            console.log(error);
-        }
-      });
-      recaptchaVerifier.render();
+      
       auth.languageCode = 'it';
       
       if (value && valid) {
-        signInWithPhoneNumber(auth, value, recaptchaVerifier)
+        signInWithPhoneNumber(auth, value, window.recaptchaVerifier)
           .then((confirmationResult) => {
             window.confirmationResult = confirmationResult;
             goto("/auth/confirm");
